@@ -1,0 +1,132 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Yu-Gi-Oh Monsters API",
+    "version": "1.0.0",
+    "description": "API REST para gestionar monstruos de Yu-Gi-Oh"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8090",
+      "description": "Servidor local"
+    }
+  ],
+  "paths": {
+    "/api/monsters": {
+      "get": {
+        "summary": "Obtener lista de monstruos (paginado)",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de monstruos"
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear nuevo monstruo",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Monster"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Monstruo creado"
+          }
+        }
+      }
+    },
+    "/api/monsters/{id}": {
+      "get": {
+        "summary": "Obtener monstruo por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Monstruo encontrado" },
+          "404": { "description": "No encontrado" }
+        }
+      },
+      "put": {
+        "summary": "Actualizar monstruo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Monster"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Actualizado correctamente" },
+          "404": { "description": "No encontrado" }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar monstruo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Eliminado" },
+          "404": { "description": "No encontrado" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Monster": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "type": { "type": "string" },
+          "level": { "type": "integer" },
+          "attack": { "type": "integer" },
+          "defense": { "type": "integer" },
+          "attribute": { "type": "string" },
+          "description": { "type": "string" }
+        },
+        "required": ["name"]
+      }
+    }
+  }
+}
