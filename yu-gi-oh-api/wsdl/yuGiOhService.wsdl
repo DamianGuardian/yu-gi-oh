@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions 
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+  xmlns:tns="http://yugiohapi/yuGiOhService" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+  targetNamespace="http://yugiohapi/yuGiOhService" 
+  name="YuGiOhService">
+
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://yugiohapi/yuGiOhService">
+      <xsd:element name="GetAllMonsters"/>
+      <xsd:element name="GetAllMonstersResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="monsters" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+
+  <wsdl:message name="GetAllMonstersRequest">
+    <wsdl:part name="parameters" element="tns:GetAllMonsters"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetAllMonstersResponse">
+    <wsdl:part name="parameters" element="tns:GetAllMonstersResponse"/>
+  </wsdl:message>
+
+  <wsdl:portType name="YuGiOhService">
+    <wsdl:operation name="GetAllMonsters">
+      <wsdl:input message="tns:GetAllMonstersRequest"/>
+      <wsdl:output message="tns:GetAllMonstersResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="YuGiOhServiceSoap" type="tns:YuGiOhService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetAllMonsters">
+      <soap:operation soapAction="http://yugiohapi/yuGiOhService/GetAllMonsters"/>
+      <wsdl:input><soap:body use="literal"/></wsdl:input>
+      <wsdl:output><soap:body use="literal"/></wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="YuGiOhService">
+    <wsdl:port name="YuGiOhServiceSoap" binding="tns:YuGiOhServiceSoap">
+      <soap:address location="http://localhost:8090/YuGiOhService.svc"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

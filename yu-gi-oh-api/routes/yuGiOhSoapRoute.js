@@ -5,11 +5,10 @@ const bodyParser = require('body-parser');
 
 router.use(bodyParser.text({ type: '*/xml' }));
 
-// Ruta para el WSDL o menú general SOAP
+// Ruta para WSDL o menú general
 router.get('/', async (req, res) => {
   if (req.url.includes('?wsdl')) {
-    const wsdl = `
-      <?xml version="1.0" encoding="UTF-8"?>
+    const wsdl = `<?xml version="1.0" encoding="UTF-8"?>
       <definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
                    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
                    xmlns:tns="http://localhost:8090/YuGiOhService.svc"
@@ -91,8 +90,7 @@ router.get('/', async (req, res) => {
             <soap:address location="http://localhost:8090/YuGiOhService.svc"/>
           </port>
         </service>
-      </definitions>
-    `;
+      </definitions>`;
     res.set('Content-Type', 'text/xml');
     return res.send(wsdl);
   }
@@ -107,12 +105,11 @@ router.get('/', async (req, res) => {
           <Operation>DeleteMonster</Operation>
         </AvailableOperations>
       </soap:Body>
-    </soap:Envelope>
-  `;
+    </soap:Envelope>`;
   res.type('application/xml').send(menu);
 });
 
-// Ruta POST tipo SOAP para ejecutar funciones
+// Ruta POST para ejecución
 router.post('/', async (req, res) => {
   try {
     const body = req.body;
@@ -120,75 +117,61 @@ router.post('/', async (req, res) => {
     if (body.includes('<GetAllMonsters')) {
       const monsters = await Monster.find().limit(5);
       const monsterList = monsters.map(m => m.name).join(', ');
-
       return res.type('application/xml').send(`
         <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
           <soap:Body>
             <GetAllMonstersResponse>${monsterList}</GetAllMonstersResponse>
           </soap:Body>
-        </soap:Envelope>
-      `);
+        </soap:Envelope>`);
     }
 
     if (body.includes('<GetMonsterById')) {
       const match = body.match(/<id>(.*?)<\/id>/);
-      const id = match ? match[1] : null;
-      const monster = await Monster.findById(id);
-
+      const monster = await Monster.findById(match?.[1]);
       return res.type('application/xml').send(`
         <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
           <soap:Body>
             <GetMonsterByIdResponse>${monster ? monster.name : 'No encontrado'}</GetMonsterByIdResponse>
           </soap:Body>
-        </soap:Envelope>
-      `);
+        </soap:Envelope>`);
     }
 
     if (body.includes('<CreateMonster')) {
       const match = body.match(/<name>(.*?)<\/name>/);
-      const name = match ? match[1] : 'Desconocido';
-
-      const newMonster = new Monster({ name });
+      const newMonster = new Monster({ name: match?.[1] });
       await newMonster.save();
-
       return res.type('application/xml').send(`
         <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
           <soap:Body>
-            <CreateMonsterResponse>Monstruo creado con ID ${newMonster._id}</CreateMonsterResponse>
+            <CreateMonsterResponse>ID: ${newMonster._id}</CreateMonsterResponse>
           </soap:Body>
-        </soap:Envelope>
-      `);
+        </soap:Envelope>`);
     }
 
     if (body.includes('<DeleteMonster')) {
       const match = body.match(/<id>(.*?)<\/id>/);
-      const id = match ? match[1] : null;
-      await Monster.findByIdAndDelete(id);
-
+      await Monster.findByIdAndDelete(match?.[1]);
       return res.type('application/xml').send(`
         <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
           <soap:Body>
-            <DeleteMonsterResponse>Monstruo eliminado (si existía)</DeleteMonsterResponse>
+            <DeleteMonsterResponse>Eliminado (si existía)</DeleteMonsterResponse>
           </soap:Body>
-        </soap:Envelope>
-      `);
+        </soap:Envelope>`);
     }
 
-    return res.status(400).type('application/xml').send(`
+    res.status(400).type('application/xml').send(`
       <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
         <soap:Body>
           <Error>Acción no reconocida</Error>
         </soap:Body>
-      </soap:Envelope>
-    `);
-  } catch (error) {
-    return res.status(500).type('application/xml').send(`
+      </soap:Envelope>`);
+  } catch (err) {
+    res.status(500).type('application/xml').send(`
       <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
         <soap:Body>
-          <Error>${error.message}</Error>
+          <Error>${err.message}</Error>
         </soap:Body>
-      </soap:Envelope>
-    `);
+      </soap:Envelope>`);
   }
 });
 
