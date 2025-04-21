@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors'); // ✅ Agregado para evitar problemas CORS
+const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const monsterRoutes = require('./routes/monsterRoutes');
@@ -17,19 +17,19 @@ connectDB();
 
 const app = express();
 
-// ✅ Middleware para permitir CORS
+// Middleware CORS
 app.use(cors());
 
-// Permitir JSON en las peticiones
+// Middleware para JSON
 app.use(express.json());
 
 // Rutas REST
 app.use('/api/monsters', monsterRoutes);
 
-// Ruta simulada tipo SOAP (.svc)
+// Ruta SOAP (simulando .svc)
 app.use('/YuGiOhService.svc', yuGiOhSoapRoute);
 
-// Swagger
+// Swagger docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 // Middleware de errores
@@ -40,4 +40,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
   console.log(`🧙 Servicio SOAP en http://localhost:${PORT}/YuGiOhService.svc`);
+  console.log(`📘 Swagger disponible en http://localhost:${PORT}/api-docs`);
+  console.log(`📄 WSDL disponible en http://localhost:${PORT}/YuGiOhService.svc?wsdl`);
 });
