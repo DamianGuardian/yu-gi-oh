@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Hp\\Downloads\\Quinto Semestre\\Sistemas distribuidos\\Trabajos codigos\\TrainerApi\\TrainerApi.csproj": {}
+    "C:\\Users\\reydr\\OneDrive\\Documentos\\GitHub\\yu-gi-oh\\TrainerApi\\TrainerApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Hp\\Downloads\\Quinto Semestre\\Sistemas distribuidos\\Trabajos codigos\\TrainerApi\\TrainerApi.csproj": {
+    "C:\\Users\\reydr\\OneDrive\\Documentos\\GitHub\\yu-gi-oh\\TrainerApi\\TrainerApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Hp\\Downloads\\Quinto Semestre\\Sistemas distribuidos\\Trabajos codigos\\TrainerApi\\TrainerApi.csproj",
+        "projectUniqueName": "C:\\Users\\reydr\\OneDrive\\Documentos\\GitHub\\yu-gi-oh\\TrainerApi\\TrainerApi.csproj",
         "projectName": "TrainerApi",
-        "projectPath": "C:\\Users\\Hp\\Downloads\\Quinto Semestre\\Sistemas distribuidos\\Trabajos codigos\\TrainerApi\\TrainerApi.csproj",
-        "packagesPath": "C:\\Users\\Hp\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Hp\\Downloads\\Quinto Semestre\\Sistemas distribuidos\\Trabajos codigos\\TrainerApi\\obj\\",
+        "projectPath": "C:\\Users\\reydr\\OneDrive\\Documentos\\GitHub\\yu-gi-oh\\TrainerApi\\TrainerApi.csproj",
+        "packagesPath": "C:\\Users\\reydr\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\reydr\\OneDrive\\Documentos\\GitHub\\yu-gi-oh\\TrainerApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Hp\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\reydr\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -71,7 +71,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.405/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.406/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
